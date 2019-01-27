@@ -13,7 +13,7 @@ public class MainWindow {
     public void create(){
         window.setTitle("SnakeGame");
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        window.setSize(320,320);
+        window.setSize(321,335);
         window.setResizable(false);
         window.setLocationRelativeTo(null);
         window.add(new GameField());
