@@ -57,6 +57,16 @@ public class GameField extends JPanel implements ActionListener {
         }
     }
 
+    public void checkCollision(){
+        if(x[0] > SIZE || x[0] < 0){
+            inGame = false;
+        }
+
+        if(y[0] > SIZE || y[0] < 0){
+            inGame = false;
+        }
+    }
+
     public void move(){
         for(int i = dots; i > 0; i--){
             x[i] = x[i-1];
@@ -93,6 +103,9 @@ public class GameField extends JPanel implements ActionListener {
                 g.drawLine(i, 0, i, SIZE);
                 g.drawLine(0, i, SIZE, i);
             }
+        }else{
+            g.setColor(Color.WHITE);
+            g.drawString("Game over!",135,135);
         }
 
         g.dispose();
@@ -102,7 +115,10 @@ public class GameField extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         if(inGame){
             checkApple();
+            checkCollision();
             move();
+        }else{
+            timer.stop();
         }
         repaint();
     }
