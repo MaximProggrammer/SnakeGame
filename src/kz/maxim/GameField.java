@@ -6,12 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 public class GameField extends JPanel implements ActionListener {
     private final int SIZE = 320;
     private final int DOT_SIZE = 16;
     private final int ALL_DOTS = 400;
     private int dots;
+    private int appleX, appleY;
     private int[] x = new int[ALL_DOTS];
     private int[] y = new int[ALL_DOTS];
     private Timer timer;
@@ -28,6 +30,7 @@ public class GameField extends JPanel implements ActionListener {
 
     public void initStart(){
         loadImage();
+        createApple();
 
         timer = new Timer(200,this);
         dots = 3;
@@ -40,6 +43,18 @@ public class GameField extends JPanel implements ActionListener {
         apple = iia.getImage();
         ImageIcon iid = new ImageIcon("resources/dot.jpg");
         dot = iid.getImage();
+    }
+
+    public void createApple(){
+        appleX = new Random().nextInt(20)*DOT_SIZE;
+        appleY = new Random().nextInt(20)*DOT_SIZE;
+    }
+
+    public void checkApple(){
+        if(x[0] == appleX && y[0] == appleY){
+            dots++;
+            createApple();
+        }
     }
 
     public void move(){
@@ -69,7 +84,7 @@ public class GameField extends JPanel implements ActionListener {
         super.paint(g);
 
         if(inGame) {
-
+            g.drawImage(apple,appleX,appleY,this);
             for(int i = dots; i > 0; i--){
                 g.drawImage(dot,x[i],y[i],this);
             }
@@ -86,6 +101,7 @@ public class GameField extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         if(inGame){
+            checkApple();
             move();
         }
         repaint();
